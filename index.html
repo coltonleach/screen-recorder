@@ -3,56 +3,61 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Screen Recorder</title>
   </head>
   <body>
     <div id="app"></div>
-    <h1>Record your screen and webcam</h1>
-    <p>
-      Welcome to my screen and audio recording web app! With this free and
-      open-source tool, you can effortlessly capture your screen, webcam, and
-      microphone. Whether you need to create tutorials, showcase presentations,
-      or simply share your thoughts, this app has got you covered.
-    </p>
-    <p>
-      To begin, grant your browser permission to access your screen and/or
-      webcam. Once you're ready, hit the record button, and my app will start
-      capturing high-quality video and audio separately. This separation allows
-      for greater flexibility when it comes to downloading and editing your
-      recordings.
-    </p>
-    After finishing your recording, you'll have the option to preview both the
-    video and audio tracks. If everything looks good, you can either download
-    them individually or conveniently merge them into a single file. The choice
-    is yours!
-    <p>
-      I've designed this app to be user-friendly and accessible. No need to
-      worry about complicated setups or hidden costs. Simply enjoy the seamless
-      experience of recording, previewing, and downloading your recordings with
-      ease.
-    </p>
-    <p>
-      Join the community of content creators, educators, and professionals who
-      rely on my app for their multimedia needs. Start exploring the
-      possibilities today!
-    </p>
-    <div class="btn-container">
-      <button id="btn-start-record" disabled>Start Recording</button>
-      <button id="btn-stop-record" disabled>Stop Recording</button>
-      <button id="btn-merge" disabled>Merge Video and Audio</button>
-    </div>
-    <div class="download-container">
-      <a target="_blank" id="btn-download-video">Download Video</a>
-      <a target="_blank" id="btn-download-audio">Download Audio</a>
-      <a target="_blank" id="btn-download-merge">Download Merged Video</a>
-    </div>
-    <div class="video-container">
-      <p>Video Preview</p>
-      <video id="my-recording" width="320" height="240" controls></video>
-    </div>
-    <div class="audio-container">
-      <p>Audio Preview</p>
+    <div class="preview-container">
+      <p>Once you're done recording, the video with be displayed here.</p>
+      <video id="my-recording" width="640" height="360" controls></video>
       <audio id="my-audio" controls></audio>
+      <div class="btn-container">
+        <button id="btn-start-record" disabled>Start Recording</button>
+        <button id="btn-stop-record" disabled>Stop Recording</button>
+        <button id="btn-preview" disabled>Preview Both</button>
+        <button id="btn-merge" disabled>Merge Video and Audio</button>
+        <div class="download-container">
+          <button id="btn-download-more" disabled>Download...</button>
+          <div class="download-menu">
+            <a target="_blank" id="btn-download-video" aria-disabled="true"
+              >Download Video</a
+            >
+            <a target="_blank" id="btn-download-audio" aria-disabled="true"
+              >Download Audio</a
+            >
+            <a target="_blank" id="btn-download-merge" aria-disabled="true"
+              >Download Merged Video</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-container">
+      <p>
+        With this free and open-source tool, you can effortlessly capture your
+        screen, webcam, and microphone. Whether you need to create tutorials,
+        showcase presentations, or simply share your thoughts, this app has got
+        you covered.
+      </p>
+      <p>
+        To begin, hit the “Start record” button and grant your browser
+        permission to access your microphone, screen and/or webcam. Once they’re
+        selected, a countdown will begin and the app will start capturing
+        high-quality video and audio simultaneously, but separately. This
+        separation allows for greater flexibility when it comes to downloading
+        and editing your recordings.
+      </p>
+      <p>
+        After finishing your recording, you'll have the option to preview both
+        the video and audio tracks. If everything looks good, you can either
+        download them individually or conveniently merge them into a single
+        file. The choice is yours!
+      </p>
+      <p>
+        No need to worry about creating an account, complicated setups, or
+        hidden costs. Simply enjoy the seamless experience of recording,
+        previewing, and downloading your recordings with ease.
+      </p>
     </div>
     <script type="module" src="/main.js"></script>
   </body>

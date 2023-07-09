@@ -6,11 +6,17 @@ import './style.css'
 const btnStartRecord = document.querySelector('#btn-start-record')
 const btnStopRecord = document.querySelector('#btn-stop-record')
 const btnMerge = document.querySelector('#btn-merge')
+const btnPreview = document.querySelector('#btn-preview')
 const btnDownloadVideo = document.querySelector('#btn-download-video')
 const btnDownloadAudio = document.querySelector('#btn-download-audio')
 const btnDownloadMerge = document.querySelector('#btn-download-merge')
+const btnDownloadMore = document.querySelector('#btn-download-more')
 const myVideo = document.querySelector('#my-recording')
 const myAudio = document.querySelector('#my-audio')
+
+let playBack = false
+let videoMediaRecorder = undefined
+let audioMediaRecorder = undefined
 
 const ffmpeg = createFFmpeg({ log: true })
 
@@ -20,9 +26,6 @@ const loadFfmpeg = async () => {
   btnStopRecord.setAttribute('disabled', 'disabled')
   btnMerge.setAttribute('disabled', 'disabled')
 }
-
-let videoMediaRecorder = undefined
-let audioMediaRecorder = undefined
 
 btnStartRecord.addEventListener('click', async (e) => {
   let flag = true
@@ -95,6 +98,10 @@ btnStartRecord.addEventListener('click', async (e) => {
         btnDownloadAudio.href = myAudio.src
         btnMerge.removeAttribute('disabled')
         btnStartRecord.removeAttribute('disabled')
+        btnPreview.removeAttribute('disabled')
+        btnDownloadAudio.setAttribute('aria-disabled', 'false')
+        btnDownloadVideo.setAttribute('aria-disabled', 'false')
+        btnDownloadMore.setAttribute('aria-disabled', 'false')
       }
 
       btnStopRecord.removeAttribute('disabled')
@@ -127,12 +134,27 @@ btnMerge.addEventListener('click', async (e) => {
     new Blob([data.buffer], { type: 'video/mp4' })
   )
   btnDownloadMerge.href = url
+  btnMerge.setAttribute('aria-disabled', 'false')
 })
 
 btnStopRecord.addEventListener('click', (e) => {
   //stop
   videoMediaRecorder.stop()
   audioMediaRecorder.stop()
+})
+
+btnPreview.addEventListener('click', () => {
+  if (!playBack) {
+    myVideo.currentTime = 0
+    myAudio.currentTime = 0
+    myVideo.play()
+    myAudio.play()
+    playBack = true
+  } else {
+    myVideo.pause()
+    myAudio.pause()
+    playBack = false
+  }
 })
 
 loadFfmpeg()
