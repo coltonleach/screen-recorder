@@ -25,6 +25,7 @@ const loadFfmpeg = async () => {
   btnStartRecord.removeAttribute('disabled')
   btnStopRecord.setAttribute('disabled', 'disabled')
   btnMerge.setAttribute('disabled', 'disabled')
+  btnPreview.setAttribute('disabled', 'disabled')
 }
 
 btnStartRecord.addEventListener('click', async (e) => {
@@ -36,6 +37,9 @@ btnStartRecord.addEventListener('click', async (e) => {
   }
   if (flag) {
     try {
+      //TODO: allow the user to select if they want their webcam to be captured.
+      //TODO: allow the user to select if they want noise suppression.
+      //TODO: add 3 second countdown before recording starts.
       const audioRecording = await navigator.mediaDevices.getUserMedia({
         video: false, //webcam
         audio: true, //mic
@@ -72,13 +76,12 @@ btnStartRecord.addEventListener('click', async (e) => {
       videoMediaRecorder.start()
       audioMediaRecorder.start()
 
-      // setTimeout(() => {
-      //   videoMediaRecorder.stop()
-      //   audioMediaRecorder.stop()
-      // }, 10000)
+      setTimeout(() => {
+        videoMediaRecorder.stop()
+        audioMediaRecorder.stop()
+      }, 10000)
 
-      videoMediaRecorder.onstop = (e) => {
-        console.log('video onstop')
+      videoMediaRecorder.onstop = () => {
         audioMediaRecorder.stop()
         myVideo.src = URL.createObjectURL(
           new Blob(videoData, {
@@ -88,8 +91,7 @@ btnStartRecord.addEventListener('click', async (e) => {
         btnDownloadVideo.href = myVideo.src
       }
 
-      audioMediaRecorder.onstop = (e) => {
-        console.log('audio onstop')
+      audioMediaRecorder.onstop = () => {
         myAudio.src = URL.createObjectURL(
           new Blob(audioData, {
             type: audioData[0].type,
@@ -99,21 +101,20 @@ btnStartRecord.addEventListener('click', async (e) => {
         btnMerge.removeAttribute('disabled')
         btnStartRecord.removeAttribute('disabled')
         btnPreview.removeAttribute('disabled')
+        btnDownloadMore.removeAttribute('disabled')
         btnDownloadAudio.setAttribute('aria-disabled', 'false')
         btnDownloadVideo.setAttribute('aria-disabled', 'false')
-        btnDownloadMore.setAttribute('aria-disabled', 'false')
       }
 
       btnStopRecord.removeAttribute('disabled')
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 })
 
 btnMerge.addEventListener('click', async (e) => {
   ffmpeg.FS('writeFile', 'video.webm', await fetchFile(myVideo.src))
-  // await ffmpeg.run('-i', 'video.webm', 'output.mp4')
   ffmpeg.FS('writeFile', 'audio.ogg', await fetchFile(myAudio.src))
 
   await ffmpeg.run(
